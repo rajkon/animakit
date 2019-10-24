@@ -12,8 +12,14 @@
   "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.6.4",
+    "ejs": "^2.7.1",
     "express": "^4.17.1",
+    "fsevents": "^2.1.1",
+    "gasp": "0.0.2",
+    "jquery": "^3.4.1",
     "moment": "^2.24.0",
+    "shelljs": "^0.8.3",
+    "superagent": "^5.1.0",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
