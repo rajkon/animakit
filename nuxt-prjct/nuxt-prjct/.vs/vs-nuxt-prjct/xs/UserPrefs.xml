@@ -1,0 +1,31 @@
+﻿<Properties StartupConfiguration="{73FCBE1D-3A88-4478-810D-5E68C8757226}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../frontend/nuxt.config.js">
+    <Files>
+      <File FileName="../frontend/.nuxt/App.js" Line="3" Column="9" />
+      <File FileName="../frontend/.nuxt/server.js" Line="11" Column="20" />
+      <File FileName="../frontend/.nuxt/index.js" Line="5" Column="39" />
+      <File FileName="../frontend/.nuxt/router.js" Line="1" Column="1" />
+      <File FileName="../frontend/nuxt.config.js" Line="21" Column="11" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="vs-nuxt-prjct" expanded="True">
+            <Node name="nuxt-prjct" expanded="True">
+              <Node name="nuxt-prjct" expanded="True">
+                <Node name="nuxt-prjct" expanded="True" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Default" />
+  <MonoDevelop.Ide.ItemProperties.nuxt-prjct FirstBuild="True" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

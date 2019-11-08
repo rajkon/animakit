@@ -2,11 +2,11 @@
   "name": "node_project",
   "version": "1.0.0",
   "description": "node project",
-  "main": "index.js",
+  "main": "index_for_backend.ejs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel server.js --out-dir build",
-    "dev-start": "babel-watch server.js"
+    "dev-start": "babel-watch ./server/server.js"
   },
   "author": "raj kondala",
   "license": "ISC",
@@ -18,6 +18,8 @@
     "gasp": "0.0.2",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
+    "mongoose": "^5.7.3",
+    "nuxt": "^2.10.2",
     "shelljs": "^0.8.3",
     "superagent": "^5.1.0",
     "uuid": "^3.3.3"
@@ -26,6 +28,7 @@
     "@babel/preset-env": "^7.6.3",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "babel-watch": "^7.0.0"
+    "babel-watch": "^7.0.0",
+    "cors": "^2.8.5"
   }
 }
