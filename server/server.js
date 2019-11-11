@@ -1,5 +1,5 @@
 import express from 'express';
-
+import { inspect } from 'util' // or directly
 //const repository = require('./repositories/TodoRepository');
 
 //const app = express.Router();
@@ -54,29 +54,59 @@ app.get('/', (req, res) => {
 })
 
 
+app.post('/ret_func', function (req, res) {
 
-app.get('/ret_func', function (req, res) {
-
-    
+    let respBody = '';
     console.log("successful call on server side to return function");
     res.status(200);
-    res.send(ret_func_show());
-    //res.send(ret_func_show());
-    //res.send("hello trying to return function");
+    let o = Object.create(twn_parms);
+
+
+    //console.log('req: ' + inspect(req));
+    let body = req.body;
+    console.log('req body: ' + body);
+    let txt = JSON.stringify(body.text);
+    let coordinates = body.coordinates;
+    if(coordinates) {
+        o.x = coordinates.x;
+        o.y = coordinates.y;
+        console.log("rotating green.:  x:" + o.x);
+        console.log("rotating green.:  y:" + o.y);
+        
+    }
+
+    console.log('req txt: ' + txt);
+
+    if(txt.includes('scale')){
+        o  =  ret_func_scale(o, 0.5);
+    }
+    if(txt.includes('rotate')){
+        o = ret_func_rotate(o, 360);
+    }
+
+    if(txt.includes('show'))
+    {
+        res.send(ret_func_show(o));
+    }
+
+
+    res.send(o);
   
 })
 
-
-
-
+//empty object
 const twn_parms = {
-    duration: 3,
-    x: "",
-    scale: 1,
-    ease: "",
-    autoAlpha: 1
 
 };
+
+// const twn_parms = {
+//     duration: 3,
+//     x: "",
+//     scale: 1,
+//     ease: "",
+//     autoAlpha: 1,
+//     rotation : 0
+// };
 
 
 
@@ -89,9 +119,7 @@ let ret_func_show = new Function('svg_file_name','TweenMax.to(svg_file_name, 3, 
       +'}); console.log("srvr_func");'
 );
 */
-function ret_func_show() {
-
-    let o = Object.create(twn_parms);
+function ret_func_show(o) {
     o.duration = 3;
     o.x = 100;
     o.scale =  0.8;
@@ -101,17 +129,16 @@ function ret_func_show() {
     return o;
 }
 
-function ret_func_show_test() {
-
-    let o = Object.create(twn_parms);
-    o.duration = 3;
-    o.x = 100;
-    o.scale = 0.8;
-    o.ease = Elastic.easeOut;
-    o.autoAlpha = 1;
-
+function ret_func_scale(o, percentage) {
+    o.scale = percentage; 
     return o;
 }
+
+function ret_func_rotate(o, rotate_percentage) {
+    o.rotation = rotate_percentage; 
+    return o;
+}
+
 
 
 // get all todo items in the db

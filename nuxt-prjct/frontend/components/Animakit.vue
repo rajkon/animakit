@@ -3,7 +3,7 @@
     in animkit
     <div id="txtdiv">Test</div>
 
-    <div class="box green"></div>
+   
 
     <p>
       <code>pageX</code>:
@@ -14,8 +14,34 @@
       <span id="y">n/a</span>
     </p>
     <img id="dogimgid" src="../assets/dog_svg.svg" alt="dog svg" height="87px" width="100px" />
+
+
+     <div class="box rcorners1">green</div>
+
+     
   </div>
 </template>
+
+<style>
+.wrapper {
+  margin-top:16px;
+}
+
+.box {
+  display:block;
+  position:relative;
+}
+
+.rcorners1 {
+  
+  border-radius: 25px;
+  background: #73AD21;
+  padding: 20px; 
+  width: 150px;
+  height: 150px;  
+}
+
+</style>
             <script src="TweenMax.min.js"></script>
 
           <script>
@@ -30,6 +56,8 @@ let showX;
 let showY;
 let wait = ms => new Promise((r, j) => setTimeout(r, ms));
 let currSaidTxt;
+
+
 export default {
   name: "Animakit",
 
@@ -40,10 +68,6 @@ export default {
       box[0].addEventListener("mouseenter", this.updateDisplay, false);
       box[0].addEventListener("mouseleave", this.updateDisplay, false);
 
-      pageX = document.getElementById("x");
-      pageY = document.getElementById("y");
-      showX = pageX.textContent;
-      showY = pageY.textContent;
       //---- speech
 
       let currSaidTxt = "";
@@ -54,7 +78,7 @@ export default {
       let curr_tween_params;
 
       //TweenMax.to("h2.title", 1, { opacity: 0.3 });
-      TweenMax.set(dog_svg, { autoAlpha: 0 });
+      //TweenMax.set(dog_svg, { autoAlpha: 0 });
 
       //window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
       //let finalTranscript = '';
@@ -64,8 +88,9 @@ export default {
       //recognition.continuous = true;
       //recognition.onresult = (event) => {
 
-      let sentences = ["show dog", "dog rotate scale"];
-
+      let sentences = ["show dog", "dog rotate scale", "show rectangle", "rectangle rotate green scale" ];
+      //let sentences = ["show rectangle"]; 
+      //let sentences = ["rectangle rotate green scale"]; 
       for (var index = 0; index < sentences.length; index++) {
         setTimeout(() => {
           count = count + 1;
@@ -76,7 +101,7 @@ export default {
     },
 
     act: function(sentence, indx) {
-      console.log("sleeping");
+
       console.log("sentence:" + sentence);
       const dog_svg = document.getElementById("dogimgid");
       console.log("is dogimgid obj: " + document.getElementById("dogimgid"));
@@ -116,15 +141,21 @@ export default {
         console.log(" changed currSaidTxt was: " + currSaidTxt);
         currSaidTxt = interimTranscript;
 
-        this.apiCall().then(curr_tween_params => {
+        
 
+        this.apiCallForTweenParams(interimTranscript).then(curr_tween_params => {
+
+          pageX = document.getElementById("x");
+          pageY = document.getElementById("y");
+          showX = pageX.textContent;
+          showY = pageY.textContent;
+
+          console.log('curr_tween_params from server: ' + JSON.stringify(curr_tween_params));
           //first sentence "show dog"
           if (currSaidTxt.includes("dog") && currSaidTxt.includes("show")) {
             console.log("said dog show!!");
             console.log("dog ele:" + dog_svg);
-
             console.log("showX:" + showX + "showY:" + showY);
-
             this.executeTween(dog_svg, curr_tween_params);
           }
 
@@ -134,8 +165,9 @@ export default {
           ) {
             console.log("said rectangle show!!");
 
-            console.log("showX:" + showX + "showY:" + showY.innerText);
-            TweenMax.to(".green", 3, {
+            console.log("showX:" + showX + "showY:" + showY);
+            gsap.to(".box", {
+              duration: 3,
               x: 100,
               scale: 0.8,
               ease: Elastic.easeOut,
@@ -165,7 +197,7 @@ export default {
           ) {
             console.log("said dog rotate scale!!");
             console.log("dog ele:" + dog_svg);
-            TweenMax.to(dog_svg, 3, { rotation: 360, scale: 0.5 });
+            TweenMax.to(dog_svg, 3, curr_tween_params);
           }
 
           if (
@@ -175,11 +207,21 @@ export default {
             currSaidTxt.includes("rotate")
           ) {
             console.log("said green rectangle rotate scale!!");
-            TweenMax.to(".green", 3, {
-              rotation: 360,
-              scale: 0.5,
-              autoAlpha: 1
-            });
+            console.log("rotating green.: " + JSON.stringify(curr_tween_params));
+            gsap.to(".rcorners1", curr_tween_params);
+            // gsap.to(".green",{
+            //   duration: 3,  
+            //   rotation: 360,
+            //   scale: 0.5,
+            //   autoAlpha: 1
+            // }); 
+
+            //TweenMax.to(".green", {rotation: 27, x: 100, duration: 1});
+            // TweenMax.to(".green", 3, {
+            //   rotation: 360,
+            //   scale: 0.5,
+            //   autoAlpha: 1
+            // }); 
           }
         });
       } // end - changed currSaidTxt
@@ -196,9 +238,20 @@ export default {
       pageX.textContent = event.clientX;
       pageY.textContent = event.clientY;
     },
-    apiCall: function() {
+
+    apiCallForTweenParams: function(interimTranscript) {
+      //let blah =  Object.is(pageX, undefined) ? 0 : "defined";
+      //console.log('blah : ' + blah);
+          pageX = document.getElementById("x");
+          pageY = document.getElementById("y");
+          showX = pageX.textContent;
+          showY = pageY.textContent;
+
+      console.log("pageX.textContent: " + pageX.textContent+ " pageY.textContent: " + pageY.textContent);
+      //for the begining set (x,y) to (0,0)
+     
       return axios
-        .get("http://localhost:3000/ret_func")
+        .post("http://localhost:3000/ret_func",{"text": interimTranscript, "coordinates": {x: pageX.textContent, y: pageY.textContent}})
         //.set("Content-Type", "application/json")
         .then(res => {
           console.log("called ret_func");
@@ -274,6 +327,7 @@ export default {
                               });*/
 
 import { TweenMax } from "gsap";
+import { gsap } from "gsap";
 import { Elastic } from "gsap";
 import axios from "axios";
 </script>
