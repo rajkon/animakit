@@ -1,3 +1,3 @@
 # animakit
-animation presentation and play
+Animation with just voice.
 Using Greensock Vuejs Nuxtjs
