@@ -1,3 +1,3 @@
 # animakit
 animation presentation and play
-Using Greensock and Vuejs
+Using Greensock Vuejs Nuxtjs
