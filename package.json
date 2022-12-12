@@ -13,7 +13,7 @@
   "dependencies": {
     "@babel/core": "^7.6.4",
     "ejs": "^2.7.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fsevents": "^2.1.1",
     "gasp": "0.0.2",
     "jquery": "^3.4.1",
